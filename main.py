@@ -1,16 +1,27 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from electrical_component import ElectricalComponent
+from componant_data_extractor import ComponentExtractor
+import os
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def main():
+    directory = "Task example files"
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    components = []  # List to store instances of ElectricalComponent
+
+    # Iterate over files in the directory
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            file_path = os.path.join(directory, filename)
+            temperature_range, voltage_range = ComponentExtractor.process_file(file_path)
+            component_name = os.path.splitext(filename)[0]  # Extract component name from file name
+            component = ElectricalComponent(component_name, voltage_range, temperature_range)
+            components.append(component)
+
+    # Print components
+    for component in components:
+        print(component)
+        print()
+
+
+if __name__ == "__main__":
+    main()
