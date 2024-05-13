@@ -1,26 +1,22 @@
-from electrical_component import ElectricalComponent
-from componant_data_extractor import ComponentExtractor
-import os
+from ComponentSearcher import ComponentSearcher
+from component_manager import ComponentManager
 
 
 def main():
     directory = "Task example files"
 
-    components = []  # List to store instances of ElectricalComponent
-
-    # Iterate over files in the directory
-    for filename in os.listdir(directory):
-        if filename.endswith(".txt"):
-            file_path = os.path.join(directory, filename)
-            temperature_range, voltage_range = ComponentExtractor.process_file(file_path)
-            component_name = os.path.splitext(filename)[0]  # Extract component name from file name
-            component = ElectricalComponent(component_name, voltage_range, temperature_range)
-            components.append(component)
+    component_manager = ComponentManager(directory)
+    component_manager.load_component_files()
+    component_manager.process_component_files()
+    components = component_manager.create_components()
 
     # Print components
     for component in components:
         print(component)
         print()
+
+    searcher = ComponentSearcher(directory)
+    searcher.search_components()
 
 
 if __name__ == "__main__":
